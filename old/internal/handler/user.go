@@ -3,8 +3,8 @@ package handler
 import (
 	"encoding/json"
 	"net/http"
-	"plan/internal/model"
-	"plan/internal/usecase"
+	"plan/old/internal/model"
+	"plan/old/internal/usecase"
 	"strconv"
 )
 

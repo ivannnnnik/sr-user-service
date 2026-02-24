@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"plan/internal/model"
-	"plan/internal/repository"
+	"plan/old/internal/model"
+	"plan/old/internal/repository"
 )
 
 type User struct {

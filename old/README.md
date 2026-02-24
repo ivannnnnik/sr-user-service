@@ -6,3 +6,8 @@ that I haven't had a chance to explore yet
 ```bash
 docker-compose up -d
 ```
+
+
+# TODO List
+- [ ] API Schema
+- [ ] 

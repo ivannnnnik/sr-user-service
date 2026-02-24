@@ -7,10 +7,9 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"plan/internal/usecase"
-
-	"plan/internal/handler"
-	"plan/internal/repository"
+	"plan/old/internal/handler"
+	"plan/old/internal/repository"
+	"plan/old/internal/usecase"
 
 	_ "embed"
 	_ "github.com/jackc/pgx/v5/stdlib"
