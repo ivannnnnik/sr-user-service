@@ -2,22 +2,23 @@ package main
 
 import (
 	"fmt"
-	"github.com/joho/godotenv"
-	"google.golang.org/grpc"
 	"log"
 	"net"
 	"os"
-	"github.com/jmoiron/sqlx"
-	_ "github.com/jackc/pgx/v5/stdlib"
 
+	userv1 "github.com/ivannnnnik/sr-proto/gen/go/user/v1"
+	"github.com/ivannnnnik/sr-user-service/internal/handler"
+	"github.com/ivannnnnik/sr-user-service/internal/repository"
+	"github.com/ivannnnnik/sr-user-service/internal/service"
+	_ "github.com/jackc/pgx/v5/stdlib"
+	"github.com/jmoiron/sqlx"
+	"github.com/joho/godotenv"
+	"google.golang.org/grpc"
 )
 
 func main() {
 	// Env
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Failed load envs")
-	}
+	_ = godotenv.Load() // не fatal — в Docker envs приходят через environment
 
 	// Database
 	dbHost := os.Getenv("DB_HOST")
@@ -49,6 +50,10 @@ func main() {
 
 	// Inicialized DB
 
+	userRepo := repository.NewUserRepository(db)
+	userService := service.NewUserService(userRepo)
+	userHandler := handler.NewUserHandler(userService)
+
 	// gRPC Server
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil{
@@ -56,6 +61,10 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
+
+	userv1.RegisterUserServiceServer(grpcServer, userHandler)
+
+
 	grpcServer.Serve(lis)
 
 }

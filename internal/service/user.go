@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"os/user"
 
 	"golang.org/x/crypto/bcrypt"
 
@@ -14,7 +13,7 @@ type UserService struct{
 	repo *repository.UserRepository
 }
 
-func NewUserRepository(repo *repository.UserRepository) *UserService{
+func NewUserService(repo *repository.UserRepository) *UserService{
 	return &UserService{
 		repo: repo,
 	}
