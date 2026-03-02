@@ -14,6 +14,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 func main() {
@@ -63,8 +64,9 @@ func main() {
 	grpcServer := grpc.NewServer()
 
 	userv1.RegisterUserServiceServer(grpcServer, userHandler)
+	reflection.Register(grpcServer)
 
-
+	log.Println("gRPC server listening on :50051")
 	grpcServer.Serve(lis)
 
 }

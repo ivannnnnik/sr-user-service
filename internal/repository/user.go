@@ -27,3 +27,15 @@ func (r *UserRepository) Create(ctx context.Context, user *model.User) error{
 	Scan(&user.ID, &user.Email,&user.CreatedAt)
 	return err
 }
+
+func (r *UserRepository) GetByID(ctx context.Context, id string) (*model.User, error){
+	query := `SELECT id, email, created_at FROM users WHERE id = $1`
+
+	var user model.User
+	err := r.db.GetContext(ctx, &user, query, id)
+	if err != nil{
+		return nil, err
+	}
+
+	return &user, nil
+}

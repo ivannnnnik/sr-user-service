@@ -42,3 +42,17 @@ func (svc *UserService) Register(ctx context.Context, email, username, password 
 	return &userModel, nil
 
 }
+
+
+func (svc *UserService) GetByID(ctx context.Context, id string) (*model.User, error){
+	
+
+	err = svc.repo.GetByID(ctx, id)
+
+	if err != nil{
+		return nil, err
+	}
+
+	return &userModel, nil
+
+}
