@@ -34,11 +34,15 @@ func (h *UserHandler) Register(ctx context.Context, req *userv1.RegisterRequest)
 }
 
 func (h *UserHandler) GetProfile(ctx context.Context, req *userv1.GetProfileRequest) (*userv1.GetProfileResponse, error) {
-    // TODO: вызвать h.service.GetProfile
+	user, err := h.service.GetProfile(ctx, req.UserId)
+	if err != nil{
+		return nil, err
+	}
 
-	
-    // TODO: сконвертировать model.User → userv1.User
-    // TODO: вернуть &userv1.GetProfileResponse{User: ...}
+	userConv := UserToProto(user)
 
+	return &userv1.GetProfileResponse{
+		User: userConv,
+	}, nil
 
 }
