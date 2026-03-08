@@ -6,14 +6,19 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/ivannnnnik/sr-user-service/internal/model"
-	"github.com/ivannnnnik/sr-user-service/internal/repository"
 )
 
-type UserService struct{
-	repo *repository.UserRepository
+
+type userRepo interface {
+	Create(ctx context.Context, user *model.User) error
+    GetByID(ctx context.Context, id string) (*model.User, error)
 }
 
-func NewUserService(repo *repository.UserRepository) *UserService{
+type UserService struct{
+	repo userRepo
+}
+
+func NewUserService(repo userRepo) *UserService{
 	return &UserService{
 		repo: repo,
 	}

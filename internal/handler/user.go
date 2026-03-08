@@ -4,15 +4,20 @@ import (
 	"context"
 
 	userv1 "github.com/ivannnnnik/sr-proto/gen/go/user/v1"
-	"github.com/ivannnnnik/sr-user-service/internal/service"
+	"github.com/ivannnnnik/sr-user-service/internal/model"
 )
+
+type userService interface {
+    Register(ctx context.Context, email, username, password string) (*model.User, error)
+    GetProfile(ctx context.Context, id string) (*model.User, error)
+}
 
 type UserHandler struct{
 	userv1.UnimplementedUserServiceServer
-	service *service.UserService
+	service userService
 }
 
-func NewUserHandler(svc *service.UserService) *UserHandler{
+func NewUserHandler(svc userService) *UserHandler{
 	return &UserHandler{
 		service: svc,
 	}
